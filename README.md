@@ -40,6 +40,14 @@ The project also uses **Snowflake AI** to transform several free-text fields int
 ## Orchestration with Airflow
 
 All components of the project are orchestrated using **Airflow**, deployed through the **Astro CLI**.  
+
+It handles all table creation automatically. If you need to add a new data source, you **don’t need to modify the DAG**. Simply:
+
+1. Add the SQL file for creating the table in the [SQL code folder](include/sql).  
+2. Add the corresponding Python function to populate the table in the [Python code folder](include/python_codes).  
+
+The DAG will automatically detect and process the new source without any further changes.
+
 Below is the full DAG showing the workflow and all tasks involved:
 
 ![airflow dag](images/airflow_dag.png)
@@ -53,7 +61,6 @@ Future improvements include:
 - Storing all credentials securely in **Azure Key Vault**, **GitHub Secrets**, or a similar secure service  
 - Replacing password-based authentication with **MFA**  
 - Using **private key authentication** for both dbt and Airflow when connecting to Snowflake
-- Clean dbt project
-- Clean airflow dag 
+- Clean dbt project 
 
 ---
