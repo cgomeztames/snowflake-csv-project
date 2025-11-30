@@ -1,5 +1,4 @@
 include/python_codes/funtions/config.py
-include/daily_reports
 astro
 tests
 .git
@@ -14,5 +13,4 @@ webserver_config.py
 airflow.cfg
 airflow.db
 venv
-
-
+dags/files_test_dag.py

@@ -13,7 +13,7 @@ from include.python_codes.vehicle_usage import populate_vehicle_usage
 from include.python_codes.warehouse_inventory import populate_warehouse_inventory
 
 
-folder = Path("/usr/local/airflow/include/daily_reports")
+folder = Path("/usr/local/airflow/daily_reports")
 stage='daily_files'
 
 # Dictionary with all tables
