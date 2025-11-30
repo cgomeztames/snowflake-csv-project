@@ -1,0 +1,20 @@
+models:
+  - name: dim_product
+    columns:
+      - name: product_id
+        description: This is the dim_product primary key column. The column is gerated using a integer md5 with the combination of product_name + product_category
+        data_type: number
+        tests:
+          - not_null
+          - unique
+      - name: product_name
+        data_type: varchar
+      - name: product_category
+        data_type: varchar
+      - name: product_subcategory
+        data_type: varchar
+      - name: cdc_datetime
+        description: This is the date the row was loaded
+        data_type: date
+        tests:
+          - not_null

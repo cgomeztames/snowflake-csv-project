@@ -1,0 +1,72 @@
+version: 2
+
+sources:
+  - name: external_files
+    database: load_db
+    schema: raw
+    tables:
+      - name: customer_service_report
+        description: "Customer service tickets with delivery IDs, issue types, resolution times, and ticket status."
+        columns:
+          - name: ticket_id
+            description: "This is the primary key of the table"
+            data_tests:
+              - not_null
+          - name: status
+            data_tests:
+              - accepted_values:
+                values: ["Open", "Resolved", "Escalated"]
+                severity: warn
+          - name: resolution_time_hours
+            data_tests:
+              - dbt_expectations.expect_column_values_to_be_between:
+                max_value: 200
+                row_condition: "resolution_time_hours is not null"
+                severity: warn
+                description: "This test checks whether there are potential values in minutes instead of hours"
+              - negative_values:
+                severity: warn
+                description: "This test checks for negative values as it should never happen. It is still a warn to avoid the all the data transformations to break"
+          
+      - name: daily_delivery_report
+        description: "Daily delivery details including shipment dates, customer and product info, delivery status, and vehicle used."
+        columns:
+          - name: delivery_id
+            description: "This is the primary key of the table"
+            data_tests:
+              - not_null
+          - name: postal_code
+            data_tests:
+              - dbt_expectations.expect_column_values_to_match_regex:
+                regex: "[0-9]+"
+                row_condition: "postal_code is not null"
+                severity: warn
+                description: "Let's imagine that for the countries included only numeric values are allowed"
+      - name: vehicle_usage_report
+        description: "Daily vehicle usage metrics including mileage, fuel consumption, maintenance, and breakdowns."
+        columns:
+          - name: vehicle_id
+            description: "This is the primary key of the table"
+            data_tests:
+              - not_null
+          - name: fuel_consumed_liters
+            data_tests:
+              - negative_values:
+                severity: warn
+                description: "This test checks for negative values as it should never happen. It is still a warn to avoid the all the data transformations to break"
+          - name: maintenance_cost_usd
+            data_tests:
+              - negative_values:
+                severity: warn
+                description: "This test checks for negative values as it should never happen. It is still a warn to avoid the all the data transformations to break"
+      - name: warehouse_inventory_report
+        description: "Daily warehouse inventory including stock levels, shipments, and inventory manager notes."
+        columns:
+          - name: warehouse_name
+            data_tests:
+              - not_null:
+                severity: warn
+          - name: product_name
+            data_tests:
+              - not_null:
+                severity: warn

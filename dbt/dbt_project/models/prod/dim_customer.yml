@@ -1,0 +1,22 @@
+models:
+  - name: dim_customer
+    columns:
+      - name: customer_id
+        description: This is the primary key for the customer dimension model. It is made with the combination of customer name + customer address
+        data_type: number
+        tests:
+          - not_null
+          - unique
+      - name: customer_name
+        data_type: varchar
+      - name: customer_address
+        data_type: varchar
+      - name: customer_city
+        data_type: varchar
+      - name: postal_code
+        data_type: varchar
+      - name: cdc_datetime
+        description: This is the date the row was loaded
+        data_type: date
+        tests:
+          - not_null

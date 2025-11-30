@@ -1,0 +1,8 @@
+project:
+    name: snowflake-wh-from-csv
+deploy:
+  airflow:
+    extraVolumes:
+      - type: bind
+        source: "C:/Users/cgome/Downloads/daily_reports"
+        target: "/usr/local/airflow/daily_reports"
